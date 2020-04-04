@@ -41,3 +41,6 @@ def test_dump_task_yaml_01():
     assert os.path.exists(yaml_save_path)==False
 
     return True
+
+if __name__ == "__main__":
+    test_dump_task_yaml_01()

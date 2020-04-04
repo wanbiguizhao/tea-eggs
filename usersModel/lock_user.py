@@ -7,7 +7,11 @@
 
 import pathlib
 import sys
+import os
 import yaml
+from ansible.playbook import Playbook
+from ansible.vars.manager import VariableManager
+from ansible.executor.playbook_executor import PlaybookExecutor
 _project_root = str(pathlib.Path(__file__).resolve().parents[1])
 sys.path.append(_project_root)
 
@@ -38,12 +42,16 @@ def dump_task_yaml(task_info_obj, yaml_save_path):
     with open(yaml_save_path, 'w') as yaml_file:
         documents = yaml.dump(data, yaml_file)
         print(documents)
+    os.path.abspath(yaml_save_path)
 
+
+def run_task():
+      Playbook.load()
 
 if __name__ == "__main__":
-    # task_info_obj = TaskInfo()
-    # task_info_obj.host_ip = "127.0.0.1"
-    # task_info_obj.username = "labs"
-    # yaml_save_path = "./test.yaml"
-    # dump_task_yaml(task_info_obj, yaml_save_path)
+    task_info_obj = TaskInfo()
+    task_info_obj.host_ip = "127.0.0.1"
+    task_info_obj.username = "labs"
+    yaml_save_path = "./test.yaml"
+    dump_task_yaml(task_info_obj, yaml_save_path)
     pass
