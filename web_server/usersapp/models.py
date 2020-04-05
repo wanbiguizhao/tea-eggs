@@ -8,6 +8,13 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 from sqlalchemy import Sequence
+
+
+import pathlib
+import sys
+import yaml
+_project_root = str(pathlib.Path(__file__).resolve().parents[2])
+sys.path.append(_project_root)
 from web_server.usersapp.database import Base
 
 

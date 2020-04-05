@@ -7,12 +7,17 @@
 '''
 
 from typing import List
-
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 
-from . import crud, models, schemas
-from .database import SessionLocal, engine
+import pathlib
+import sys
+import yaml
+_project_root = str(pathlib.Path(__file__).resolve().parents[2])
+sys.path.append(_project_root)
+
+from web_server.usersapp import crud, models, schemas
+from web_server.usersapp.database import SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)
 

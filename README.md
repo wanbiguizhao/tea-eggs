@@ -22,3 +22,9 @@ linux系统管理用户的工具集合
 
 ## tools
 系统运行涉及的常用工具  
+
+### 运行程序
+```
+cd web_server
+uvicorn main:app
+```
