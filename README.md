@@ -9,7 +9,7 @@ pytest
 pylint --rcfile=default.pylintrc */*.py
 
 ## 生成依赖requirements.txt
-pipreqs  --ignore=venv . --force
+pipreqs  --ignore=venv,web-server . --force
 pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 # 模型说明
 ## usersModel
