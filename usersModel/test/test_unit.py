@@ -19,9 +19,9 @@ from usersModel import lock_user
 
 
 
-def test_dump_task_yaml_01():
+def test_lock_user_01():
     """
-    [测试 lock_user.dump_task_yaml ]
+    [测试 lock_user.run_task_yaml ]
     
     Returns:
         [type] -- [description]
@@ -39,8 +39,14 @@ def test_dump_task_yaml_01():
         assert obj.host_ip in yaml_str
     os.remove(yaml_save_path)
     assert os.path.exists(yaml_save_path)==False
-
     return True
-
+def test_unlock_user_01():
+    """
+    [测试 unlock_user.run_task_yaml ]
+    
+    Returns:
+        [type] -- [description]
+    """
+    
 if __name__ == "__main__":
-    test_dump_task_yaml_01()
+    test_lock_user_01()

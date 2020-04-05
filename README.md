@@ -10,7 +10,7 @@ pylint --rcfile=default.pylintrc */*.py
 
 ## 生成依赖requirements.txt
 pipreqs  --ignore=venv . --force
-
+pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 # 模型说明
 ## usersModel
 linux系统管理用户的工具集合
