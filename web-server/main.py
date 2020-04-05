@@ -14,7 +14,6 @@ from fastapi import FastAPI
 from pydantic import BaseModel, EmailStr
 _project_root = str(pathlib.Path(__file__).resolve().parents[1])
 sys.path.append(_project_root)
-
 from usersModel import lock_user
 
 app = FastAPI()
@@ -37,6 +36,7 @@ class LockUserTask(BaseModel):
     host: str
     username: str
 
+
 class UnLockUserTask(LockUserTask):
     pass
 
@@ -46,6 +46,7 @@ class UnLockUserTask(LockUserTask):
 async def lock_user(*, task: LockUserTask):
     lock_user.run_task_yaml()
     return task
+
 
 @app.post("/task/user/unlock", response_model=UnLockUserTask)
 async def unlock(*, task: UnLockUserTask):
