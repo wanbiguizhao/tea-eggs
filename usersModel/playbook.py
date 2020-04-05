@@ -125,5 +125,7 @@ def run_palybook(playbook_path,become_pass):
     results_callback = ResultCallback()
     playbook._tqm._stdout_callback=results_callback
     playbook.run()
-    
+
+if __name__ == "__main__":
+    pass
 # https://lex-lee.blog.csdn.net/article/details/92837916#PlaybookExecutorrun_390 
