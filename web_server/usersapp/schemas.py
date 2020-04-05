@@ -10,6 +10,21 @@ from typing import List
 from pydantic import BaseModel
 
 
+
+
+class LockUserTaskBase(BaseModel):
+    host: str
+    username: str 
+
+class LockUserTaskCreate(LockUserTaskBase):
+    pass
+
+class LockUserTask(LockUserTaskBase):
+    id: int
+    uuid: str
+    class Config:
+        orm_mode = True
+
 class ItemBase(BaseModel):
     title: str
     description: str = None

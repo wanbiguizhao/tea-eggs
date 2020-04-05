@@ -10,11 +10,18 @@ import sys
 import yaml
 _project_root = str(pathlib.Path(__file__).resolve().parents[2])
 sys.path.append(_project_root)
-
+import uuid
 from sqlalchemy.orm import Session
 
 from . import models, schemas
 
+
+def create_lock_user_task(db: Session, task:schemas.LockUserTaskCreate ):
+    db_task = models.LockUserTask( uuid=uuid.uuid4().hex , host= task.host , username= task.username )
+    db.add(db_task)
+    db.commit()
+    db.refresh(db_task)
+    return db_task
 
 def get_user(db: Session, user_id: int):
     return db.query(models.User).filter(models.User.id == user_id).first()

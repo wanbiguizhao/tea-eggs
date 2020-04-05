@@ -39,9 +39,17 @@ class Item(Base):
 
     owner = relationship("User", back_populates="items")
 
-class Task(Base):
+class LockUserTask(Base):
     __tablename__ = "lockUserTask"
     id = Column(Integer, Sequence('lock_user_task_id_seq'),primary_key=True, index=True)
     uuid = Column(String(32),unique=True ,index=True )
+    host = Column(String)
+    username = Column(String)
+    task_status = Column(String)
+    #create_datetime=
+    #last_updatime=
+    #status=[init,process,failture,sucess,]
+    #error_count=0
+    # 
 
 

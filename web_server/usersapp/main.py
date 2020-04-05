@@ -32,6 +32,9 @@ def get_db():
     finally:
         db.close()
 
+@app.post("/users/task/lock", response_model= schemas.LockUserTask)
+def lock_user(task: schemas.LockUserTaskCreate , db: Session = Depends(get_db) ):
+    return crud.create_lock_user_task( db=db,task=task)
 
 @app.post("/users/", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
