@@ -28,10 +28,10 @@ def test_dump_task_yaml_01():
     """
     obj=lock_user.TaskInfo()
     obj.username="labs"
-    obj.host_ip="129.168.0.3"
-    yaml_save_path=datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')+'dump_task_yaml.yaml'
+    obj.host_ip="127.0.0.1"
+    yaml_save_path=datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')+'lock_user.yaml'
     assert os.path.exists(yaml_save_path)==False
-    lock_user.dump_task_yaml(task_info_obj=obj,yaml_save_path=yaml_save_path)
+    lock_user.run_task_yaml(task_info_obj=obj,yaml_save_path=yaml_save_path)
     assert os.path.exists(yaml_save_path)==True
     with open(yaml_save_path ,'r') as test_yaml_file:
         yaml_str=test_yaml_file.read()
