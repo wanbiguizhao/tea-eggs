@@ -9,14 +9,14 @@
 import pathlib
 import sys
 import yaml
-_project_root = str(pathlib.Path(__file__).resolve().parents[2])
+_project_root = str(pathlib.Path(__file__).resolve().parents[1])
 sys.path.append(_project_root)
 
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-SQLALCHEMY_DATABASE_URL = "sqlite:////git/tea-eggs/web_server/usersapp/sql_app.db"
+SQLALCHEMY_DATABASE_URL = "sqlite:///"+_project_root+"sql_app.db"
 # SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgresserver/db"
 
 engine = create_engine(

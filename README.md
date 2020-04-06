@@ -12,7 +12,8 @@ pylint --rcfile=default.pylintrc */*.py
 pipreqs  --ignore=venv,web-server . --force
 pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 # 模型说明
-## usersModel
+## osusers
+ 
 linux系统管理用户的工具集合
 - 增加用户(用户组是用户的组)
 - 给用户重置密码
@@ -20,11 +21,18 @@ linux系统管理用户的工具集合
 - 增加用户辅助组
 - 增加sudo权限
 
+### web说明
+目录: webService/osUser
+启动命令: uvicorn main:app
+http://127.0.0.1:8000/osuser/docs
+可以查看web接口。
+
+
 ## tools
 系统运行涉及的常用工具  
 
 ### 运行程序
 ```
-cd web_server
+cd webService
 uvicorn main:app
 ```

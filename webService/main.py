@@ -11,7 +11,6 @@ from fastapi import FastAPI
 from pydantic import BaseModel, EmailStr
 _project_root = str(pathlib.Path(__file__).resolve().parents[1])
 sys.path.append(_project_root)
-from usersModel import lock_user
 from webService.osUser.main import osUserApp
 
 app = FastAPI()
