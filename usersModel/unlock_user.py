@@ -18,7 +18,7 @@ from usersModel import playbook
 
 
 yaml_template = """
-- hosts: params_host_ip
+- hosts: params_host
   become: yes
   become_user: root
   gather_facts: F #开启debug模式
@@ -33,13 +33,13 @@ yaml_template = """
 
 
 class TaskInfo:
-    host_ip = ""
+    host = ""
     username = ""
 
 
 def run_task_yaml(task_info_obj, yaml_save_path):
     data = yaml.safe_load(yaml_template)
-    data[0]['hosts'] = task_info_obj.host_ip
+    data[0]['hosts'] = task_info_obj.host
     data[0]['vars']['username'] = task_info_obj.username
     with open(yaml_save_path, 'w') as yaml_file:
         documents = yaml.dump(data, yaml_file)
@@ -56,7 +56,7 @@ def run_task():
 
 if __name__ == "__main__":
     task_info_obj = TaskInfo()
-    task_info_obj.host_ip = "127.0.0.1"
+    task_info_obj.host = "127.0.0.1"
     task_info_obj.username = "labs"
     yaml_save_path = "./test.yaml"
     run_task_yaml(task_info_obj, yaml_save_path)

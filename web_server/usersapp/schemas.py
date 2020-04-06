@@ -8,8 +8,14 @@
 from typing import List
 
 from pydantic import BaseModel
+from enum import Enum
 
 
+class TaskStatusEnum(str, Enum):
+    init = "init" #
+    processing = "processing" # 
+    sucess = "sucess" # 成功
+    failure = 'failure' #
 
 
 class LockUserTaskBase(BaseModel):

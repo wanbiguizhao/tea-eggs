@@ -12,9 +12,20 @@ _project_root = str(pathlib.Path(__file__).resolve().parents[2])
 sys.path.append(_project_root)
 import uuid
 from sqlalchemy.orm import Session
+from sqlalchemy import or_ , and_
+from web_server.usersapp import models, schemas
+from datetime import timedelta , datetime
 
-from . import models, schemas
 
+
+def get_undo_lock_user_tasks(db: Session ):
+    query_result_obj=db.query(models.LockUserTask).filter(
+        or_(models.LockUserTask.status == schemas.TaskStatusEnum.init,
+            and_(models.LockUserTask.status == schemas.TaskStatusEnum.processing , models.LockUserTask.last_updatime + timedelta(seconds=120) > datetime.now() )
+            )
+        ).first()
+    return query_result_obj
+    
 
 def create_lock_user_task(db: Session, task:schemas.LockUserTaskCreate ):
     db_task = models.LockUserTask( uuid=uuid.uuid4().hex , host= task.host , username= task.username )
@@ -22,6 +33,7 @@ def create_lock_user_task(db: Session, task:schemas.LockUserTaskCreate ):
     db.commit()
     db.refresh(db_task)
     return db_task
+
 
 def get_user(db: Session, user_id: int):
     return db.query(models.User).filter(models.User.id == user_id).first()
