@@ -16,7 +16,7 @@ import yaml
 _project_root = str(pathlib.Path(__file__).resolve().parents[2])
 sys.path.append(_project_root)
 
-from storage.database import SessionLocal,engine ,get_db
+from storage.database import engine ,get_db
 from storage.osUser import crud, models, schemas
 
 models.Base.metadata.create_all(bind=engine)

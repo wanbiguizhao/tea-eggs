@@ -6,9 +6,8 @@
 '''
 import pathlib
 import sys
-import os
 _project_root = str(pathlib.Path(__file__).resolve().parents[1])
-
+sys.path.append(_project_root)
 
 
 if __name__ == "__main__":
