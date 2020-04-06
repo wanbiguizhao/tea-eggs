@@ -14,7 +14,6 @@ from datetime import datetime
 import pathlib
 import sys
 import yaml
-from enum import Enum
 _project_root = str(pathlib.Path(__file__).resolve().parents[2])
 sys.path.append(_project_root)
 from storage.database import Base
@@ -31,7 +30,7 @@ class AbstractTask(Base):
     uuid = Column(String(32),unique=True ,index=True )
     create_datetime=Column(DateTime, default=datetime.now)
     last_updatime=Column(DateTime, default=datetime.now, onupdate=datetime.now)
-    status=Column(Enum(TaskStatusEnum),server_default=TaskStatusEnum.init, nullable=False)
+    status=Column( Enum(TaskStatusEnum),server_default=TaskStatusEnum.init, nullable=False)
     error_count=Column(Integer,default=0)
 
     def save(self):
