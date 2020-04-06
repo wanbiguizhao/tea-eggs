@@ -36,6 +36,21 @@ def get_db():
 def lock_user(task: schemas.LockUserTaskCreate , db: Session = Depends(get_db) ):
     return crud.create_lock_user_task( db=db,task=task)
 
+@app.get("/users/task/lock", response_model= schemas.LockUserTask)
+def read_lock_user_task(task_id: int, db: Session = Depends(get_db)):
+    db_task= crud.get_lock_user_task(db,task_id)
+    return db_task
+
+
+@app.post("/users/task/unlock", response_model= schemas.LockUserTask)
+def unlock_user(task: schemas.LockUserTaskCreate , db: Session = Depends(get_db) ):
+    return crud.create_unlock_user_task( db=db,task=task)
+
+@app.get("/users/task/unlock", response_model= schemas.LockUserTask)
+def read_unlock_user_task(task_id: int, db: Session = Depends(get_db)):
+    db_task= crud.get_unlock_user_task(db,task_id)
+    return db_task
+
 @app.post("/users/", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, email=user.email)

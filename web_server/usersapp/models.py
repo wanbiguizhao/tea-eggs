@@ -42,24 +42,15 @@ class Item(Base):
     owner = relationship("User", back_populates="items")
 
 
+class AbstractTask(Base):
+    __abstract__ = True
 
-class LockUserTask(Base):
-
-    __tablename__ = "lockUserTask"
-    id = Column(Integer, Sequence('lock_user_task_id_seq'),primary_key=True, index=True)
     uuid = Column(String(32),unique=True ,index=True )
-    host = Column(String)
-    username = Column(String)
-
     create_datetime=Column(DateTime, default=datetime.now)
     last_updatime=Column(DateTime, default=datetime.now, onupdate=datetime.now)
     status=Column(Enum(TaskStatusEnum),server_default=TaskStatusEnum.init, nullable=False)
     error_count=Column(Integer,default=0)
 
-
-    def __repr__(self):
-        return "id:{id}-host:{host}-username:{username}-status:{status}-{last_updatime}".format(**self.__dict__)
-    
     def save(self):
         try:
             db = SessionLocal()
@@ -70,7 +61,25 @@ class LockUserTask(Base):
             print(e)
         finally:
             db.close()
+
     def set_status(self, status_value: TaskStatusEnum ):
         self.status=status_value
+    def __repr__(self):
+        return "type:{__tablename__}-id:{id}-host:{host}-username:{username}-status:{status}-{last_updatime}".format(**self.__dict__)
+
+class LockUserTask(AbstractTask):
+
+    __tablename__ = "lockUserTask"
+    id = Column(Integer, Sequence('lock_user_task_id_seq'),primary_key=True, index=True)
+
+    host = Column(String)
+    username = Column(String)
 
 
+
+class UNLockUserTask(AbstractTask):
+    
+    __tablename__ = "unLockUserTask"
+    id = Column(Integer, Sequence('unlock_user_task_id_seq'),primary_key=True, index=True)
+    host = Column(String)
+    username = Column(String)

@@ -44,6 +44,24 @@ def get_undo_lock_user_tasks():
         db.close()
     return query_result_list
 
+def get_undo_unlock_user_tasks():
+    query_result_list=[]
+    try:
+        db = SessionLocal()
+        obj=db.query(models.UNLockUserTask).filter(
+        or_(
+            models.UNLockUserTask.status == schemas.TaskStatusEnum.init,
+            and_(models.UNLockUserTask.status == schemas.TaskStatusEnum.processing , models.UNLockUserTask.last_updatime + timedelta(seconds=120) < datetime.now() )
+            )
+        ).first()
+        if obj is not None:
+            query_result_list=[obj]
+    except Exception as e:
+        print(e)
+    finally :
+        db.close()
+    return query_result_list
+
 if __name__ == "__main__":
     x=get_undo_lock_user_tasks()
     print(x)

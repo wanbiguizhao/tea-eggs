@@ -9,6 +9,7 @@ from typing import List
 
 from pydantic import BaseModel
 from enum import Enum
+from pydantic.schema import datetime
 
 
 class TaskStatusEnum(str, Enum):
@@ -22,14 +23,24 @@ class LockUserTaskBase(BaseModel):
     host: str
     username: str 
 
+
 class LockUserTaskCreate(LockUserTaskBase):
     pass
 
 class LockUserTask(LockUserTaskBase):
     id: int
     uuid: str
+    status : TaskStatusEnum
+    create_datetime : datetime 
+    last_updatime : datetime
     class Config:
         orm_mode = True
+
+class UNLockUserTask(LockUserTask):
+
+    class Config:
+        orm_mode = True
+
 
 class ItemBase(BaseModel):
     title: str

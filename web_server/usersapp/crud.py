@@ -34,6 +34,19 @@ def create_lock_user_task(db: Session, task:schemas.LockUserTaskCreate ):
     db.refresh(db_task)
     return db_task
 
+def get_lock_user_task(db: Session, task_id:int ):
+    return db.query(models.LockUserTask).filter(models.LockUserTask.id == task_id ).first()
+
+def create_unlock_user_task(db: Session, task:schemas.UNLockUserTask ):
+    db_task = models.UNLockUserTask( uuid=uuid.uuid4().hex , host= task.host , username= task.username )
+    db.add(db_task)
+    db.commit()
+    db.refresh(db_task)
+    return db_task
+
+def get_unlock_user_task(db: Session, task_id:int ):
+    return db.query(models.UNLockUserTask).filter(models.LockUserTask.id == task_id ).first()
+
 
 def get_user(db: Session, user_id: int):
     return db.query(models.User).filter(models.User.id == user_id).first()

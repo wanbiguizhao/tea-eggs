@@ -47,7 +47,7 @@ def run_task_yaml(task_info_obj, yaml_save_path):
     become_pass="2019-09"
     #os.path.abspath(yaml_save_path)
     playbook.run_palybook(os.path.abspath(yaml_save_path),become_pass)
-    
+    return True
 
 
 def run_task():
