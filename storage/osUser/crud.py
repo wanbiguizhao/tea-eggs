@@ -43,5 +43,5 @@ def create_unlock_user_task(db: Session, task:schemas.UNLockUserTask ):
     return db_task
 
 def get_unlock_user_task(db: Session, task_id:int ):
-    return db.query(models.UNLockUserTask).filter(models.LockUserTask.id == task_id ).first()
+    return db.query(models.UNLockUserTask).filter(models.UNLockUserTask.id == task_id ).first()
 

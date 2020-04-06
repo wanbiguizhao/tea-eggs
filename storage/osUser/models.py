@@ -47,7 +47,7 @@ class AbstractTask(Base):
     def set_status(self, status_value: TaskStatusEnum ):
         self.status=status_value
     def __repr__(self):
-        return "type:{__tablename__}-id:{id}-host:{host}-username:{username}-status:{status}-{last_updatime}".format(**self.__dict__)
+        return "id:{id}-host:{host}-username:{username}-status:{status}-{last_updatime}".format(**self.__dict__)
 
 class LockUserTask(AbstractTask):
 
