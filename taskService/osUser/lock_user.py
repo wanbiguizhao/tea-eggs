@@ -14,7 +14,7 @@ from ansible.vars.manager import VariableManager
 from ansible.executor.playbook_executor import PlaybookExecutor
 _project_root = str(pathlib.Path(__file__).resolve().parents[1])
 sys.path.append(_project_root)
-from usersModel import playbook
+from ansibleService import playbook
 
 
 yaml_template = """
