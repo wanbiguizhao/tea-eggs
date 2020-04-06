@@ -37,13 +37,14 @@ def read_lock_user_task(task_id: int, db: Session = Depends(get_db)):
     return db_task
 
 
-@osUserApp.post("/task/unlock", response_model= schemas.LockUserTask)
+@osUserApp.post("/task/unlock", response_model= schemas.UNLockUserTask)
 def unlock_user(task: schemas.LockUserTaskCreate , db: Session = Depends(get_db) ):
     return crud.create_unlock_user_task( db=db,task=task)
 
-@osUserApp.get("/task/unlock", response_model= schemas.LockUserTask)
+@osUserApp.get("/task/unlock", response_model= schemas.UNLockUserTask)
 def read_unlock_user_task(task_id: int, db: Session = Depends(get_db)):
     db_task= crud.get_unlock_user_task(db,task_id)
+    print(db_task)
     return db_task
 
 
