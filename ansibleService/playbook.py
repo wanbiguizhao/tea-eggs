@@ -22,7 +22,9 @@ import sys
 import yaml
 _project_root = str(pathlib.Path(__file__).resolve().parents[1])
 sys.path.append(_project_root)
+from config import config
 
+HOSTS = config['hosts_path']['hosts']
 
 class ResultCallback(CallbackBase):
     """A sample callback plugin used for performing an action as results come in
@@ -67,8 +69,7 @@ class ResultCallback(CallbackBase):
 def run_palybook(playbook_path, become_pass):
     # InventoryManager类
     loader = DataLoader()  # 读取yaml文件
-    inventory = InventoryManager(loader=loader, sources=[
-        '/git/tea-eggs/usersModel/hosts'])  # 这里的路径要正确
+    inventory = InventoryManager(loader=loader, sources=[HOSTS])  # 这里的路径要正确
     # variableManager类
     variable_manager = VariableManager(loader=loader, inventory=inventory)
 
