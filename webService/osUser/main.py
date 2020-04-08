@@ -47,5 +47,14 @@ def read_unlock_user_task(task_id: int, db: Session = Depends(get_db)):
     print(db_task)
     return db_task
 
+@osUserApp.get("/tast/locks",response_model= List[schemas.LockUserTask])
+def read_locks_task(skip: int=0,limit: int=100,db: Session = Depends(get_db)):
+    locks= crud.get_locks_task(db,skip=skip,limit=limit)
+    return locks
+@osUserApp.get("/tast/unlocks",response_model= List[schemas.UNLockUserTask])
+def read_unlocks_task(skip: int=0,limit: int=100,db: Session = Depends(get_db)):
+    unlocks= crud.get_unlocks_task(db,skip=skip,limit=limit)
+    return unlocks
+
 
 

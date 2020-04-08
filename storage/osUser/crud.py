@@ -45,3 +45,8 @@ def create_unlock_user_task(db: Session, task:schemas.UNLockUserTask ):
 def get_unlock_user_task(db: Session, task_id:int ):
     return db.query(models.UNLockUserTask).filter(models.UNLockUserTask.id == task_id ).first()
 
+def get_locks_task(db: Session,skip: int = 0, limit: int = 100):
+    return db.query(models.LockUserTask).offset(skip).limit(limit).all()
+
+def get_unlocks_task(db: Session,skip: int = 0, limit: int = 100):
+    return db.query(models.UNLockUserTask).offset(skip).limit(limit).all()
