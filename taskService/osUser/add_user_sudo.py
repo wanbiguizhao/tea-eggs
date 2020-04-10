@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 '''
-    desc: 锁定用户模块
-    author: liukun
-    date: 2020-04-08
+    desc: 用户增加sudo权限模块
+    author: miguitian
+    date: 2020-04-10
 '''
 
 import pathlib
