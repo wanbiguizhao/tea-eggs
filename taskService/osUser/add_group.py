@@ -15,15 +15,8 @@ from ansible.executor.playbook_executor import PlaybookExecutor
 _project_root = str(pathlib.Path(__file__).resolve().parents[2])
 sys.path.append(_project_root)
 from ansibleService import playbook
-from config import config
+from config import BECOME_PASS
 
-YAML_PATH = config['add_user_group']['yaml_path']
-BECOME_PASS = config['add_user_group']['become_pass']
-HOST = config['add_user_group']['host']
-USERNAME = config['add_user_group']['username']
-GROUPNAME = config['add_user_group']['groupname']
-
-#publickey的密钥文件需要存放在YAML_PATH路径的vars文件夹内
 yaml_template = """
 - hosts: params_host
   become: yes

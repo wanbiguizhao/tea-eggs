@@ -15,14 +15,8 @@ from ansible.executor.playbook_executor import PlaybookExecutor
 _project_root = str(pathlib.Path(__file__).resolve().parents[2])
 sys.path.append(_project_root)
 from ansibleService import playbook
-from config import config
+from config import BECOME_PASS
 
-YAML_PATH = config['add_user']['yaml_path']
-BECOME_PASS = config['add_user']['become_pass']
-HOST = config['add_user']['host']
-USERNAME = config['add_user']['username']
-PASSWORD = config['add_user']['password']
-PUBLICKEY = config['add_user']['publickey']
 
 #publickey的密钥文件需要存放在YAML_PATH路径的vars文件夹内
 yaml_template = """
@@ -48,7 +42,7 @@ yaml_template = """
       group={{username}}
   - name: set authorized key
     authorized_key:
-      key: '{{lookup("file","vars/{{public_key}}")}}'
+      key: '{{public_key}}'
       state: present
       user: '{{username}}'
 """

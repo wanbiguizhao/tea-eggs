@@ -12,15 +12,10 @@ import yaml
 from ansible.playbook import Playbook
 from ansible.vars.manager import VariableManager
 from ansible.executor.playbook_executor import PlaybookExecutor
-_project_root = str(pathlib.Path(__file__).resolve().parents[1])
+_project_root = str(pathlib.Path(__file__).resolve().parents[2])
 sys.path.append(_project_root)
 from ansibleService import playbook
-from config import config
-
-YAML_PATH = config['unlock_user']['yaml_path']
-HOST = config['unlock_user']['host']
-USERNAME = config['unlock_user']['username']
-BECOME_PASS = config['unlock_user']['become_pass']
+from config import BECOME_PASS
 
 yaml_template = """
 - hosts: params_host

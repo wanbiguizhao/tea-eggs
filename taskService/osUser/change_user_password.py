@@ -15,14 +15,7 @@ from ansible.executor.playbook_executor import PlaybookExecutor
 _project_root = str(pathlib.Path(__file__).resolve().parents[2])
 sys.path.append(_project_root)
 from ansibleService import playbook
-from config import config
-
-YAML_PATH = config['change_user_password']['yaml_path']
-BECOME_PASS = config['change_user_password']['become_pass']
-HOST = config['change_user_password']['host']
-USERNAME = config['change_user_password']['username']
-PASSWORD = config['change_user_password']['password']
-
+from config import BECOME_PASS
 
 yaml_template = """
 - hosts: params_host
