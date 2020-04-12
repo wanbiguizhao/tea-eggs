@@ -28,6 +28,9 @@ class ansibleLockUserTask(ansiblePlaybookTask):
   gather_facts: F #开启debug模式
   vars:
     username: params_username
+    ansible_ssh_user : ops
+    ansible_ssh_port : 22222
+    ansible_ssh_private_key_file : "/git/tea-eggs/taskService/test/sshkey/eggs_rsa"
   tasks:
   - name: ping the machine
     ping:  
@@ -35,4 +38,10 @@ class ansibleLockUserTask(ansiblePlaybookTask):
     shell: usermod {{username}} -s /usr/sbin/nologin 
     """
     
+    def init_yaml_params(self):
+      data = yaml.safe_load(self.yaml_template)
+      data[0]['hosts'] = self.task_info_obj.host
+      data[0]['vars']['username'] = self.task_info_obj.username
+      return data
+
 

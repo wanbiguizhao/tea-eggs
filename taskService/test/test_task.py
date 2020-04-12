@@ -24,7 +24,7 @@ def test_lock_user_task_01():
     ping  172.20.16.2 能通过时再执行测试
     """
 
-    runtime_task=ansibleLockUserTask(become_pass="tea-eggs",yaml_save_path=_project_root+"tmp.yml")
+    runtime_task=ansibleLockUserTask(become_pass="tea-eggs",yaml_save_path=_project_root+"/tmp.yml")
     task_model=LockUserTask()
     task_model.host="172.20.16.2"
     task_model.username="ops"
