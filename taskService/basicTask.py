@@ -50,7 +50,7 @@ class ansiblePlaybookTask:
         if self.yaml_save_path=="":
             self.check_pass=False
             check_result.append("yaml_save_path",self.yaml_save_path,"不能为空")
-        return check_result
+        return self.check_result
 
     def set_yaml_save_path(self,yaml_save_path):
         """
@@ -79,7 +79,7 @@ class ansiblePlaybookTask:
         """
         data = yaml.safe_load(self.yaml_template)
         data[0]['hosts'] = self.task_info_obj.host
-        data[0]['vars']['username'] = self.task_info_obj.task_info_obj.username
+        data[0]['vars']['username'] = self.task_info_obj.username
         return data
 
     def dumps_yaml_file(self):
@@ -88,7 +88,7 @@ class ansiblePlaybookTask:
             print(documents)
 
     def run_playbook(self):        
-        playbook.run_palybook(os.path.abspath(yaml_save_path),self.become_pass)
+        playbook.run_palybook(os.path.abspath(self.yaml_save_path),self.become_pass)
 
 if __name__ == "__main__":
     print("hello word")
