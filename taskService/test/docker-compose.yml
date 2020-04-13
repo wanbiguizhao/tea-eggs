@@ -1,0 +1,25 @@
+version: "3.0"
+services:
+  osuser-tea-eggs:
+    image: osuser-tea-eggs
+    build:
+        context: .
+        dockerfile: Dockerfile
+    command: bash -c "/usr/sbin/sshd -D && sleep 3600"
+    ports:
+        - "22222:22"
+    logging:
+        driver: "json-file"
+        options:
+            max-size: "20M"
+            max-file: "10"
+    networks:
+        testnetwork:
+            ipv4_address: 172.20.16.2
+networks:
+    testnetwork:
+        ipam:
+            config:
+            - subnet: 172.20.16.0/24
+
+
