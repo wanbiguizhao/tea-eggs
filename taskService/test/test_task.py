@@ -32,6 +32,8 @@ def test_lock_user_task_01():
     assert runtime_task.check_pass==True
     assert ret !=None
 
+if __name__ == "__main__":
+    test_lock_user_task_01()
 
 
 
