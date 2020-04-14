@@ -12,10 +12,9 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 _project_root = str(pathlib.Path(__file__).resolve().parents[1])
 sys.path.append(_project_root)
-from config import config
-db_name = config['sqlite']['db_name']
+from config import DATABASE
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///"+_project_root+'/'+db_name
+SQLALCHEMY_DATABASE_URL = DATABASE
 # SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgresserver/db"
 
 engine = create_engine(

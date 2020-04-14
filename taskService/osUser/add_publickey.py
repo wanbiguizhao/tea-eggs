@@ -15,15 +15,8 @@ from ansible.executor.playbook_executor import PlaybookExecutor
 _project_root = str(pathlib.Path(__file__).resolve().parents[2])
 sys.path.append(_project_root)
 from ansibleService import playbook
-from config import config
+from config import BECOME_PASS
 
-YAML_PATH = config['change_public_key']['yaml_path']
-BECOME_PASS = config['change_public_key']['become_pass']
-HOST = config['change_public_key']['host']
-USERNAME = config['change_public_key']['username']
-PUBLICKEY = config['change_public_key']['publickey']
-
-#publickey的密钥文件需要存放在YAML_PATH路径的vars文件夹内
 yaml_template = """
 - hosts: params_host
   become: yes
@@ -35,11 +28,9 @@ yaml_template = """
   tasks:
   - name: ping the machine
     ping:
-  - name: backup authorized key
-    shell: mv /home/{{username}}/.ssh/authorized_keys  /home/{{username}}/.ssh/authorized_keys.$(date +%F).bak
   - name: set authorized key
     authorized_key:
-      key: '{{lookup("file","vars/{{public_key}}")}}'
+      key: '{{public_key}}'
       state: present
       user: '{{username}}'
 """
