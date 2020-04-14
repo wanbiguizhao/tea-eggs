@@ -23,8 +23,14 @@ def test_lock_user_task_01():
     docker-compose up 
     ping  172.20.16.2 能通过时再执行测试
     """
+    
+    ansibile_vars={ 
+    'ansible_ssh_user' : 'ops',
+    'ansible_ssh_port' : '22222',
+    'ansible_ssh_private_key_file' : "/git/tea-eggs/taskService/test/sshkey/eggs_rsa"
+    }
+    runtime_task=ansibleLockUserTask(become_pass="tea-eggs",yaml_save_path=_project_root+"/tmp.yml",ansibile_vars=ansibile_vars)
 
-    runtime_task=ansibleLockUserTask(become_pass="tea-eggs",yaml_save_path=_project_root+"/tmp.yml")
     task_model=LockUserTask()
     task_model.host="172.20.16.2"
     task_model.username="ops"

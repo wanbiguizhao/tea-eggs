@@ -30,10 +30,19 @@ class ansiblePlaybookTask:
     check_result: list =[] # 前置检查的条件。
     become_pass=""
 
-    def __init__(self,become_pass:str ,yaml_save_path:str="" ):
-        super().__init__()
+    def __init__(self,become_pass:str ,yaml_save_path:str="" , ansibile_vars:dict={} ):
+        """[初始化任务参数]
+        
+        Arguments:
+            become_pass {str} -- [sudo密码]
+        
+        Keyword Arguments:
+            yaml_save_path {str} -- [yaml的保存路径] (default: {""})
+            ansibile_vars {dict} -- [ansible 相关的参数  例如:ansible_ssh_user,ansible_ssh_port,ansible_ssh_private_key_file] (default: {{}})
+        """
         self.become_pass=become_pass
         self.yaml_save_path=yaml_save_path
+        self.ansibile_vars  = ansibile_vars
 
     def do_check_list(self):
         """
@@ -70,8 +79,13 @@ class ansiblePlaybookTask:
             raise NoPreCheckException()
         self.task_info_obj= task_info_obj
         self.yaml_data=self.init_yaml_params() # 初始化
+        self.init_ansible_vars()# 初始化ansible相关的参数(主要是涉及可以是ansible可以正常访问远程主机的参数)，
         self.dumps_yaml_file() # 生成yaml文件。
         self.run_playbook()
+
+    def init_ansible_vars(self):
+        for key,value in self.ansibile_vars.items():
+            self.yaml_data[0]['vars'][key]=value
 
     def init_yaml_params(self):
         """
