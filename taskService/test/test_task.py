@@ -23,16 +23,16 @@ def test_lock_user_task_01():
     docker-compose up 
     ping  172.20.16.2 能通过时再执行测试
     """
-
     runtime_task=ansibleLockUserTask(become_pass="tea-eggs",yaml_save_path=_project_root+"/tmp.yml")
     task_model=LockUserTask()
-    task_model.host="172.20.16.2"
+    task_model.host="127.0.0.1"
     task_model.username="ops"
     ret=runtime_task.run(task_info_obj=task_model)
     assert runtime_task.check_pass==True
-    assert ret !=None
+    assert ret != None
 
-
+if __name__=='__main__':
+    test_lock_user_task_01()
 
 
 

@@ -13,10 +13,10 @@ _project_root = str(pathlib.Path(__file__).resolve().parents[2])
 sys.path.append(_project_root)
 import storage.osUser.util
 from storage.osUser.schemas import TaskStatusEnum
-from taskService.osUser import lock_user , unlock_user ,add_user_sudo ,add_user ,change_user_password ,add_publickey ,add_group
+from taskService.osUser import lock_user , unlock_user ,add_user_sudo ,add_user ,change_user_password ,add_publickey ,add_group ,new_lock_user
 from datetime import datetime
 import time
-from config import YAML_PATH
+from config import YAML_PATH,BECOME_PASS
 
 
 def run_lock_user_tasks():
@@ -29,7 +29,8 @@ def run_lock_user_tasks():
                 task.save()
             yaml_save_path=YAML_PATH+datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')+'_lock_user.yaml'
             task.host,
-            result=lock_user.run_task_yaml(task,yaml_save_path)
+            runtime_task = new_lock_user.ansibleLockUserTask(BECOME_PASS,YAML_PATH)
+            result=runtime_task.run(task)
             if result:
                 task.set_status(TaskStatusEnum.sucess)
             else:

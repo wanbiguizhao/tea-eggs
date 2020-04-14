@@ -24,6 +24,8 @@ _project_root = str(pathlib.Path(__file__).resolve().parents[1])
 sys.path.append(_project_root)
 from config import HOSTS_PATH
 
+test=''
+
 class ResultCallback(CallbackBase):
     """A sample callback plugin used for performing an action as results come in
 
@@ -40,29 +42,29 @@ class ResultCallback(CallbackBase):
         host = result._host
         print(json.dumps({host.name: result._result},
                          indent=4, ensure_ascii=False))
-
+        global test
+        test = 'ok'
     def v2_runner_on_failed(self, result, **kwargs):
         host = result._host.get_name()
         self.runner_on_failed(host, result._result, False)
         print('===v2_runner_on_failed====host=%s===result=%s' %
               (host, result._result))
-
+        test = 'faild'
     def v2_runner_on_unreachable(self, result):
         host = result._host.get_name()
         self.runner_on_unreachable(host, result._result)
         print('===v2_runner_on_unreachable====host=%s===result=%s' %
               (host, result._result))
-
+        test = 'unreachable'
     def v2_runner_on_skipped(self, result):
         if C.DISPLAY_SKIPPED_HOSTS:
             host = result._host.get_name()
             self.runner_on_skipped(host, self._get_item(
                 getattr(result._result, 'results', {})))
             print("this task does not execute,please check parameter or condition.")
-
+            test = 'skipped'
     def v2_playbook_on_stats(self, stats):
         print('===========play executes completed========')
-
 
 def run_palybook(playbook_path, become_pass):
     # InventoryManager类
@@ -92,7 +94,9 @@ def run_palybook(playbook_path, become_pass):
     results_callback = ResultCallback()
     playbook._tqm._stdout_callback = results_callback
     playbook.run()
-
+    if test == 'ok':
+        return True
+    
 
 if __name__ == "__main__":
     pass
