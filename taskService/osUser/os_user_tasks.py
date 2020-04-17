@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 '''
-    desc: 锁定用户模块
+    desc: 用户任务相关的所有模块
     author: liukun
     date: 2020-04-08
 '''
@@ -28,12 +28,9 @@ class ansibleLockUserTask(ansiblePlaybookTask):
   gather_facts: F #开启debug模式
   vars:
     username: params_username
-<<<<<<< HEAD
     ansible_ssh_user : params_user
     ansible_ssh_port : params_port
     ansible_ssh_private_key_file : params_key_file
-=======
->>>>>>> liukun/sun_dev
   tasks:
   - name: ping the machine
     ping:  
