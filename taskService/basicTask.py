@@ -33,8 +33,8 @@ class ansiblePlaybookTask:
 
     def __init__(self,become_pass:str,yaml_save_path:str="",task_name:str=""):
         super().__init__()
-        self.become_pass=BECOME_PASS
-        self.yaml_save_path=YAML_PATH+'/'+self.task_name+'.yaml'
+        self.become_pass=become_pass
+        self.yaml_save_path=yaml_save_path+'/'+self.task_name+'.yaml'
     
     def do_check_list(self):
         """
