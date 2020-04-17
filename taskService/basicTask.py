@@ -31,13 +31,6 @@ class ansiblePlaybookTask:
     check_result: list =[] # 前置检查的条件。
     become_pass=""
 
-<<<<<<< HEAD
-    def __init__(self,become_pass:str,yaml_save_path:str="",task_name:str=""):
-        super().__init__()
-        self.become_pass=become_pass
-        self.yaml_save_path=yaml_save_path+'/'+self.task_name+'.yaml'
-    
-=======
     def __init__(self,become_pass:str ,yaml_save_path:str="" , ansibile_vars:dict={} ):
         """[初始化任务参数]
         
@@ -52,7 +45,6 @@ class ansiblePlaybookTask:
         self.yaml_save_path=yaml_save_path
         self.ansibile_vars  = ansibile_vars
 
->>>>>>> liukun/sun_dev
     def do_check_list(self):
         """
         程序执行之前执行初始条件检查，确保满足前置条件。
@@ -90,11 +82,8 @@ class ansiblePlaybookTask:
         self.yaml_data=self.init_yaml_params() # 初始化
         self.init_ansible_vars()# 初始化ansible相关的参数(主要是涉及可以是ansible可以正常访问远程主机的参数)，
         self.dumps_yaml_file() # 生成yaml文件。
-<<<<<<< HEAD
         run_playbook = self.run_playbook()
         return run_playbook
-=======
-        self.run_playbook()
 
     def init_ansible_vars(self):
         for key,value in self.ansibile_vars.items():
@@ -108,17 +97,7 @@ class ansiblePlaybookTask:
         data[0]['hosts'] = self.task_info_obj.host
         data[0]['vars']['username'] = self.task_info_obj.username
         return data
->>>>>>> liukun/sun_dev
 
-#该函数在参数增多的话，无法做到兼容，只能是通过继承类的方法来进行初始化
-#    def init_yaml_params(self):
-#        """
-#        子类实现填充ansible-playbook参数
-#        """
-#        data = yaml.safe_load(self.yaml_template)
-#        data[0]['hosts'] = self.task_info_obj.host
-#        data[0]['vars']['username'] = self.task_info_obj.username
-#        return data
     def dumps_yaml_file(self):
         with open(self.yaml_save_path, 'w') as yaml_file:
             documents = yaml.dump(self.yaml_data, yaml_file)
