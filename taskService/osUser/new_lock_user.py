@@ -28,12 +28,6 @@ class ansibleLockUserTask(ansiblePlaybookTask):
   gather_facts: F #开启debug模式
   vars:
     username: params_username
-<<<<<<< HEAD
-    ansible_ssh_user : params_user
-    ansible_ssh_port : params_port
-    ansible_ssh_private_key_file : params_key_file
-=======
->>>>>>> liukun/sun_dev
   tasks:
   - name: ping the machine
     ping:  
@@ -45,8 +39,5 @@ class ansibleLockUserTask(ansiblePlaybookTask):
         data = yaml.safe_load(self.yaml_template)
         data[0]['hosts'] = self.task_info_obj.host
         data[0]['vars']['username'] = self.task_info_obj.username
-        data[0]['vars']['ansible_ssh_user'] = ansible_ssh_user
-        data[0]['vars']['ansible_ssh_port'] = ansible_ssh_port
-        data[0]['vars']['ansible_ssh_private_key_file'] = ansible_ssh_private_key_file
         return data
 
