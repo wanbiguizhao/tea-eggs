@@ -13,7 +13,6 @@ from storage.basicModel import AbstractTask
 import yaml
 import os
 from ansibleService import playbook
-from config import YAML_PATH ,BECOME_PASS
 
 class ResultTask:
     status:bool=True
@@ -31,7 +30,7 @@ class ansiblePlaybookTask:
     check_result: list =[] # 前置检查的条件。
     become_pass=""
 
-    def __init__(self,become_pass:str ,yaml_save_path:str="" , ansibile_vars:dict={} ):
+    def __init__(self,become_pass:str ,yaml_save_path:str="" , ansible_vars:dict={} ):
         """[初始化任务参数]
         
         Arguments:
@@ -43,7 +42,7 @@ class ansiblePlaybookTask:
         """
         self.become_pass=become_pass
         self.yaml_save_path=yaml_save_path
-        self.ansibile_vars  = ansibile_vars
+        self.ansible_vars  = ansible_vars
 
     def do_check_list(self):
         """
@@ -86,9 +85,8 @@ class ansiblePlaybookTask:
         return run_playbook
 
     def init_ansible_vars(self):
-        for key,value in self.ansibile_vars.items():
+        for key,value in self.ansible_vars.items():
             self.yaml_data[0]['vars'][key]=value
-
     def init_yaml_params(self):
         """
         子类实现填充ansible-playbook参数
