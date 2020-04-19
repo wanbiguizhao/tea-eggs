@@ -14,12 +14,12 @@ from ansible.vars.manager import VariableManager
 from ansible.executor.playbook_executor import PlaybookExecutor
 _project_root = str(pathlib.Path(__file__).resolve().parents[2])
 sys.path.append(_project_root)
-from taskService.basicTask import ansiblePlaybookTask
+from taskService.basicTask import AnsiblePlaybookTask
 
 
 
 
-class ansibleLockUserTask(ansiblePlaybookTask):
+class ansibleLockUserTask(AnsiblePlaybookTask):
     task_name="lockUser"
     yaml_template="""
 - hosts: params_host

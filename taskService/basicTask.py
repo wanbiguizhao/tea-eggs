@@ -9,10 +9,16 @@ import sys
 _project_root = str(pathlib.Path(__file__).resolve().parents[1])
 sys.path.append(_project_root)
 from taskService.basicException import NoPreCheckException
-from storage.basicModel import AbstractTask
+from storage.basicModel import AbstractTask, TaskStatusEnum
 import yaml
 import os
 from ansibleService import playbook
+from typing import List
+from pydantic import BaseModel
+from datetime import datetime
+from storage.basicModel import AbstractTask
+from storage  import  util
+
 
 class ResultTask:
     status:bool=True
@@ -20,7 +26,7 @@ class ResultTask:
     msg:str ="" # 执行信息
     detail:dict={} # 详细信息 
 
-class ansiblePlaybookTask:
+class AnsiblePlaybookTask:
     task_name:str = ""
     yaml_template: str =""
     task_info_obj:AbstractTask = None
@@ -81,7 +87,7 @@ class ansiblePlaybookTask:
         self.yaml_data=self.init_yaml_params() # 初始化
         self.init_ansible_vars()# 初始化ansible相关的参数(主要是涉及可以是ansible可以正常访问远程主机的参数)，
         self.dumps_yaml_file() # 生成yaml文件。
-        self.run_playbook()
+        return self.run_playbook()
 
     def init_ansible_vars(self):
         for key,value in self.ansibile_vars.items():
@@ -102,7 +108,49 @@ class ansiblePlaybookTask:
             print(documents)
 
     def run_playbook(self):        
-        playbook.run_palybook(os.path.abspath(self.yaml_save_path),self.become_pass)
+        return playbook.run_palybook(os.path.abspath(self.yaml_save_path),self.become_pass)
 
+
+
+class RunningTask(BaseModel):
+    """
+    [负责将要执行的任务,从数据库中取出来,并且执行任务]
+    """
+    task_name: str ="RunningTask"
+    db_task_type_name = AbstractTask  # 数据库模型类的名称,子类可以重载
+    ansible_task_type_name = AnsiblePlaybookTask # ansible-playbook执行任务的
+    ansibile_vars:dict={}  # ansible 客户端使用的参数
+    yaml_save_path:str =datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')+task_name+'tmp.yaml' # yaml 文件存放的位置.
+    # yaml_save_path=datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')+'lock_user.yaml'
+    # ansibile_vars={ 
+    #         'ansible_ssh_user' : 'ops',
+    #         'ansible_ssh_port' : '22222',
+    #         'ansible_ssh_private_key_file' : "/git/tea-eggs/taskService/test/sshkey/eggs_rsa"
+    #         }
+
+
+    def get_undo_task(self):
+        """"父类已经实现,子类可以改写"""
+        return util.get_undo_task(self.db_task_type_name)
+
+    def run(self):
+        try:
+            task_list=self.get_undo_task()
+            print(datetime.now(),'->',len(task_list),self.task_name)
+            for task in task_list:
+                if task.status == TaskStatusEnum.init:
+                    task.set_status(TaskStatusEnum.processing)
+                    task.save()
+                runtime_task=ansible_task_type_name(become_pass="tea-eggs",yaml_save_path=self.yaml_save_path,ansibile_vars=self.ansibile_vars)
+                result=runtime_task.run(task_info_obj=task)
+                if result["success_flag"]:
+                    task.set_status(TaskStatusEnum.sucess)
+                else:
+                    task.error_count=task.error_count+1
+                    if task.error_count>=5:
+                        task.set_status(TaskStatusEnum.failure)
+                task.save()
+        except Exception as identifier:
+            print(identifier)
 if __name__ == "__main__":
     print("hello word")

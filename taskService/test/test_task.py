@@ -14,6 +14,8 @@ from traceback import print_exc
 
 from taskService.osUser.new_lock_user import ansibleLockUserTask
 from storage.osUser.models import LockUserTask
+from  taskService.osUser.runing_tasks import LockUserRunningTask
+import json
 
 
 def test_lock_user_task_01():
@@ -37,9 +39,25 @@ def test_lock_user_task_01():
     ret=runtime_task.run(task_info_obj=task_model)
     assert runtime_task.check_pass==True
     assert ret !=None
+    assert ret["sucess_flag"] == True
+    print(json.dumps(ret,indent=4 , ensure_ascii=True))
+
+def test_LockUserRunningTask_01():
+    ansibile_vars={ 
+    'ansible_ssh_user' : 'ops',
+    'ansible_ssh_port' : '22222',
+    'ansible_ssh_private_key_file' : "/git/tea-eggs/taskService/test/sshkey/eggs_rsa"
+    }
+    yaml_save_path=_project_root+"/tmp.yml"
+    running_task=LockUserRunningTask(
+        ansibile_vars=ansibile_vars,yaml_save_path=yaml_save_path
+    )
+    running_task.run()
+
 
 if __name__ == "__main__":
-    test_lock_user_task_01()
+    #test_lock_user_task_01()
+    test_LockUserRunningTask_01()
 
 
 

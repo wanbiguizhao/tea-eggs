@@ -14,12 +14,12 @@ from ansible.vars.manager import VariableManager
 from ansible.executor.playbook_executor import PlaybookExecutor
 _project_root = str(pathlib.Path(__file__).resolve().parents[2])
 sys.path.append(_project_root)
-from taskService.basicTask import ansiblePlaybookTask
-from config import ansible_ssh_user,ansible_ssh_port,ansible_ssh_private_key_file
+from taskService.basicTask import AnsiblePlaybookTask
+#from config import ansible_ssh_user,ansible_ssh_port,ansible_ssh_private_key_file
 
 
 
-class ansibleLockUserTask(ansiblePlaybookTask):
+class ansibleLockUserTask(AnsiblePlaybookTask):
     task_name="lockUser"
     yaml_template="""
 - hosts: params_host
@@ -42,8 +42,8 @@ class ansibleLockUserTask(ansiblePlaybookTask):
         data = yaml.safe_load(self.yaml_template)
         data[0]['hosts'] = self.task_info_obj.host
         data[0]['vars']['username'] = self.task_info_obj.username
-        data[0]['vars']['ansible_ssh_user'] = ansible_ssh_user
-        data[0]['vars']['ansible_ssh_port'] = ansible_ssh_port
-        data[0]['vars']['ansible_ssh_private_key_file'] = ansible_ssh_private_key_file
+        # data[0]['vars']['ansible_ssh_user'] = ansible_ssh_user
+        # data[0]['vars']['ansible_ssh_port'] = ansible_ssh_port
+        # data[0]['vars']['ansible_ssh_private_key_file'] = ansible_ssh_private_key_file
         return data
 
