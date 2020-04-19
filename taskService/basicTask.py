@@ -120,6 +120,7 @@ class RunningTask(BaseModel):
     db_task_type_name = AbstractTask  # 数据库模型类的名称,子类可以重载
     ansible_task_type_name = AnsiblePlaybookTask # ansible-playbook执行任务的
     ansibile_vars:dict={}  # ansible 客户端使用的参数
+    ansible_become_pass: str="tea-eggs"
     yaml_save_path:str =datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')+task_name+'tmp.yaml' # yaml 文件存放的位置.
     # yaml_save_path=datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')+'lock_user.yaml'
     # ansibile_vars={ 
@@ -141,16 +142,18 @@ class RunningTask(BaseModel):
                 if task.status == TaskStatusEnum.init:
                     task.set_status(TaskStatusEnum.processing)
                     task.save()
-                runtime_task=ansible_task_type_name(become_pass="tea-eggs",yaml_save_path=self.yaml_save_path,ansibile_vars=self.ansibile_vars)
+                runtime_task=self.ansible_task_type_name(become_pass=self.ansible_become_pass ,yaml_save_path=self.yaml_save_path,ansibile_vars=self.ansibile_vars)
                 result=runtime_task.run(task_info_obj=task)
-                if result["success_flag"]:
+                if result["sucess_flag"]:
                     task.set_status(TaskStatusEnum.sucess)
                 else:
                     task.error_count=task.error_count+1
                     if task.error_count>=5:
                         task.set_status(TaskStatusEnum.failure)
                 task.save()
+            return True
         except Exception as identifier:
             print(identifier)
+            return False
 if __name__ == "__main__":
     print("hello word")

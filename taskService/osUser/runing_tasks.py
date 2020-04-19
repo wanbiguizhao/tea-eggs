@@ -27,7 +27,10 @@ class LockUserRunningTask(RunningTask):
     db_task_type_name  = LockUserTask
     ansible_task_type_name =os_user_tasks.ansibleLockUserTask
 
-
+class UnLockUserRunningTask(RunningTask):
+    task_name:str="unlock_user_task"
+    db_task_type_name  = UNLockUserTask
+    ansible_task_type_name =os_user_tasks.ansibleUnLockUserTask
 
 def run_lock_user_tasks():
     try:
@@ -80,6 +83,8 @@ def run_all_task():
             func()
         time.sleep(10)
 
+def run():
+    pass
 
 if __name__ == "__main__":
     run_all_task()
