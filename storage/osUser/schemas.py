@@ -11,11 +11,6 @@ from enum import Enum
 from pydantic.schema import datetime
 
 
-class TaskStatusEnum(str, Enum):
-    init = "init" #
-    processing = "processing" # 
-    sucess = "sucess" # 成功
-    failure = 'failure' #
 
 
 
