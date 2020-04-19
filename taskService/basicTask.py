@@ -13,7 +13,6 @@ from storage.basicModel import AbstractTask
 import yaml
 import os
 from ansibleService import playbook
-from config import YAML_PATH ,BECOME_PASS
 
 class ResultTask:
     status:bool=True
@@ -31,11 +30,20 @@ class ansiblePlaybookTask:
     check_result: list =[] # 前置检查的条件。
     become_pass=""
 
-    def __init__(self,become_pass:str,yaml_save_path:str="",task_name:str=""):
-        super().__init__()
-        self.become_pass=BECOME_PASS
-        self.yaml_save_path=YAML_PATH+'/'+self.task_name+'.yaml'
-    
+    def __init__(self,become_pass:str ,yaml_save_path:str="" , ansible_vars:dict={} ):
+        """[初始化任务参数]
+        
+        Arguments:
+            become_pass {str} -- [sudo密码]
+        
+        Keyword Arguments:
+            yaml_save_path {str} -- [yaml的保存路径] (default: {""})
+            ansibile_vars {dict} -- [ansible 相关的参数  例如:ansible_ssh_user,ansible_ssh_port,ansible_ssh_private_key_file] (default: {{}})
+        """
+        self.become_pass=become_pass
+        self.yaml_save_path=yaml_save_path
+        self.ansible_vars  = ansible_vars
+
     def do_check_list(self):
         """
         程序执行之前执行初始条件检查，确保满足前置条件。
@@ -71,19 +79,23 @@ class ansiblePlaybookTask:
             raise NoPreCheckException()
         self.task_info_obj= task_info_obj
         self.yaml_data=self.init_yaml_params() # 初始化
+        self.init_ansible_vars()# 初始化ansible相关的参数(主要是涉及可以是ansible可以正常访问远程主机的参数)，
         self.dumps_yaml_file() # 生成yaml文件。
         run_playbook = self.run_playbook()
         return run_playbook
 
-#该函数在参数增多的话，无法做到兼容，只能是通过继承类的方法来进行初始化
-#    def init_yaml_params(self):
-#        """
-#        子类实现填充ansible-playbook参数
-#        """
-#        data = yaml.safe_load(self.yaml_template)
-#        data[0]['hosts'] = self.task_info_obj.host
-#        data[0]['vars']['username'] = self.task_info_obj.username
-#        return data
+    def init_ansible_vars(self):
+        for key,value in self.ansible_vars.items():
+            self.yaml_data[0]['vars'][key]=value
+    def init_yaml_params(self):
+        """
+        子类实现填充ansible-playbook参数
+        """
+        data = yaml.safe_load(self.yaml_template)
+        data[0]['hosts'] = self.task_info_obj.host
+        data[0]['vars']['username'] = self.task_info_obj.username
+        return data
+
     def dumps_yaml_file(self):
         with open(self.yaml_save_path, 'w') as yaml_file:
             documents = yaml.dump(self.yaml_data, yaml_file)
