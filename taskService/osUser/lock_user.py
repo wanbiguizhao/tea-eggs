@@ -15,12 +15,7 @@ from ansible.executor.playbook_executor import PlaybookExecutor
 _project_root = str(pathlib.Path(__file__).resolve().parents[2])
 sys.path.append(_project_root)
 from ansibleService import playbook
-from config import config
-
-YAML_PATH = config['lock_user']['yaml_path']
-HOST = config['lock_user']['host']
-USERNAME = config['lock_user']['username']
-BECOME_PASS = config['lock_user']['become_pass']
+from config import YAML_PATH,BECOME_PASS
 
 
 yaml_template = """

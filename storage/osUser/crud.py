@@ -50,3 +50,40 @@ def get_locks_task(db: Session,skip: int = 0, limit: int = 100):
 
 def get_unlocks_task(db: Session,skip: int = 0, limit: int = 100):
     return db.query(models.UNLockUserTask).offset(skip).limit(limit).all()
+
+###添加sudo权限###
+
+def create_add_sudo_task(db: Session, task:schemas.AddSudoTaskCreate ):
+    db_task = models.AddSudoTask( uuid=uuid.uuid4().hex , host= task.host , username= task.username )
+    db_task.save()
+    return db_task
+
+def get_add_sudo_task(db: Session,skip: int = 0, limit: int = 100):
+    return db.query(models.AddSudoTask).offset(skip).limit(limit).all()
+
+###添加用户###
+
+def create_add_user_task(db: Session, task:schemas.AddUserTaskCreate ):
+    db_task = models.AddUserTask( uuid=uuid.uuid4().hex , host= task.host , username= task.username , password= task.password , publickey= task.publickey)
+    db_task.save()
+    return db_task
+
+
+###修改用户密码###
+
+def create_change_password_task(db: Session, task:schemas.ChangePasswordTaskCreate ):
+    db_task = models.ChangePasswordTask( uuid=uuid.uuid4().hex , host= task.host , username= task.username , password= task.password)
+    db_task.save()
+    return db_task
+
+###增加用户公钥###
+def create_add_publickey_task(db: Session, task:schemas.AddPublickeyTaskCreate ):
+    db_task = models.AddPublickeyTask( uuid=uuid.uuid4().hex , host= task.host , username= task.username ,  publickey= task.publickey)
+    db_task.save()
+    return db_task
+
+###增加用户组###
+def create_add_group_task(db: Session, task:schemas.AddGroupTaskCreate ):
+    db_task = models.AddGroupTask( uuid=uuid.uuid4().hex , host= task.host , username= task.username ,  groupname= task.groupname)
+    db_task.save()
+    return db_task
