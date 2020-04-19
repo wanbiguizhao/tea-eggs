@@ -18,7 +18,7 @@ from datetime import timedelta , datetime
 from fastapi.params import Depends
 from sqlalchemy.orm import Session
 
-def get_undo_task(self, task_type_name : type)->list :
+def get_undo_task( task_type_name )->list :
     """
     [
         task_type_name 是storage.models定义的数据库模型
@@ -31,7 +31,7 @@ def get_undo_task(self, task_type_name : type)->list :
     Returns:
         list -- [description]
     """
-    if not issubclass(AbstractTask,task_type_name):
+    if not issubclass(task_type_name, AbstractTask):
         # todo 报告一次异常.
         return []
     query_result_list=[]
