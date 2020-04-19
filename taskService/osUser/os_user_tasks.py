@@ -47,3 +47,30 @@ class ansibleLockUserTask(AnsiblePlaybookTask):
         # data[0]['vars']['ansible_ssh_private_key_file'] = ansible_ssh_private_key_file
         return data
 
+class ansibleUnLockUserTask(AnsiblePlaybookTask):
+    task_name="unLockUser"
+    yaml_template="""
+- hosts: params_host
+  become: yes
+  become_user: root
+  gather_facts: F #开启debug模式
+  vars:
+    username: params_username
+    ansible_ssh_user : params_user
+    ansible_ssh_port : params_port
+    ansible_ssh_private_key_file : params_key_file
+  tasks:
+  - name: ping the machine
+    ping:  
+  - name: lock user |chang user login shell
+    shell: usermod {{username}} -s /bin/sh 
+    """
+    
+    def init_yaml_params(self):
+        data = yaml.safe_load(self.yaml_template)
+        data[0]['hosts'] = self.task_info_obj.host
+        data[0]['vars']['username'] = self.task_info_obj.username
+        # data[0]['vars']['ansible_ssh_user'] = ansible_ssh_user
+        # data[0]['vars']['ansible_ssh_port'] = ansible_ssh_port
+        # data[0]['vars']['ansible_ssh_private_key_file'] = ansible_ssh_private_key_file
+        return data
