@@ -18,7 +18,7 @@ _project_root = str(pathlib.Path(__file__).resolve().parents[2])
 sys.path.append(_project_root)
 from storage.database import Base
 from storage.database import SessionLocal
-from storage.osUser.schemas import TaskStatusEnum
+from storage.basicModel import TaskStatusEnum
 from storage.basicModel import AbstractTask
 
 class LockUserTask(AbstractTask):

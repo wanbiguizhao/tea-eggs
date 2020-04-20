@@ -10,16 +10,22 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String , DateTime ,Enum
 from sqlalchemy.orm import relationship
 from sqlalchemy import Sequence
+import  enum
 import pathlib
 import sys
 _project_root = str(pathlib.Path(__file__).resolve().parents[1])
 sys.path.append(_project_root)
 from storage.database import Base
 from storage.database import SessionLocal
-from storage.osUser.schemas import TaskStatusEnum
+
 from datetime import datetime
 
 
+class TaskStatusEnum(str, enum.Enum):
+    init = "init" #
+    processing = "processing" # 
+    sucess = "sucess" # 成功
+    failure = 'failure' #
 
 class AbstractTask(Base):
     __abstract__ = True

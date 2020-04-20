@@ -20,5 +20,6 @@ USER root
 RUN echo 'ops:tea-eggs' |chpasswd 
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN useradd osuser -m
 EXPOSE 22
 CMD    ["/usr/sbin/sshd", "-D"]

@@ -33,30 +33,61 @@ class ResultCallback(CallbackBase):
     the end of the execution, look into utilizing the ``json`` callback plugin
     or writing your own custom callback plugin
     """
-
+    result={
+        "v2_runner_on_ok":[],
+        "v2_runner_on_failed":[],
+        "v2_runner_on_unreachable":[],
+        "v2_runner_on_skipped":[],
+        "v2_playbook_on_stats":[],
+        "sucess_flag":False
+    }
     def v2_runner_on_ok(self, result, **kwargs):
         """Print a json representation of the result
 
         This method could store the result in an instance attribute for retrieval later
         """
         host = result._host
+        self.result['v2_runner_on_ok'].append({"host":{
+                                            "address": result._host.address,
+                                            "vars":result._host.vars},
+                                            "result": result._result,
+                                            "task_fileds":result._task_fields
+                                            })
         print(json.dumps({host.name: result._result},
                          indent=4, ensure_ascii=False))
         global test
         test = 'ok'
     def v2_runner_on_failed(self, result, **kwargs):
         host = result._host.get_name()
+        self.result['v2_runner_on_failed'].append({"host":{
+                                            "address": result._host.address,
+                                            "vars":result._host.vars},
+                                            "result": result._result,
+                                            "task_fileds":result._task_fields
+                                            })
         self.runner_on_failed(host, result._result, False)
         print('===v2_runner_on_failed====host=%s===result=%s' %
               (host, result._result))
         test = 'faild'
     def v2_runner_on_unreachable(self, result):
+        self.result['v2_runner_on_unreachable'].append({"host":{
+                                            "address": result._host.address,
+                                            "vars":result._host.vars},
+                                            "result": result._result,
+                                            "task_fileds":result._task_fields
+                                            })
         host = result._host.get_name()
         self.runner_on_unreachable(host, result._result)
         print('===v2_runner_on_unreachable====host=%s===result=%s' %
               (host, result._result))
         test = 'unreachable'
     def v2_runner_on_skipped(self, result):
+        self.result['v2_runner_on_skipped'].append({"host":{
+                                            "address": result._host.address,
+                                            "vars":result._host.vars},
+                                            "result": result._result,
+                                            "task_fileds":result._task_fields
+                                            })
         if C.DISPLAY_SKIPPED_HOSTS:
             host = result._host.get_name()
             self.runner_on_skipped(host, self._get_item(
@@ -64,8 +95,22 @@ class ResultCallback(CallbackBase):
             print("this task does not execute,please check parameter or condition.")
             test = 'skipped'
     def v2_playbook_on_stats(self, stats):
+        self.result['v2_playbook_on_stats'].append(stats.__dict__)
         print('===========play executes completed========')
 
+<<<<<<< HEAD
+=======
+    def get_task_result(self):
+        self.result["sucess_flag"]=True
+        if len(self.result["v2_runner_on_unreachable"])>0:
+            self.result["sucess_flag"]=False
+        if len(self.result["v2_runner_on_failed"])>0:
+            self.result["sucess_flag"]=False
+        return self.result
+
+
+
+>>>>>>> 51213737a177436984546c92d5621f62e912fa94
 def run_palybook(playbook_path, become_pass):
     # InventoryManager类
     loader = DataLoader()  # 读取yaml文件
@@ -94,9 +139,14 @@ def run_palybook(playbook_path, become_pass):
     results_callback = ResultCallback()
     playbook._tqm._stdout_callback = results_callback
     playbook.run()
+<<<<<<< HEAD
     if test == 'ok':
         return True
     
+=======
+    return results_callback.get_task_result()
+
+>>>>>>> 51213737a177436984546c92d5621f62e912fa94
 
 if __name__ == "__main__":
     pass

@@ -21,7 +21,7 @@ pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 
 # 模型说明
 ## osusers
- 
+
 linux系统管理用户的工具集合
 
 - 增加用户(用户组是用户的组)
@@ -29,6 +29,28 @@ linux系统管理用户的工具集合
 - 更新用户密钥
 - 增加用户辅助组
 - 增加sudo权限
+
+## filesystem
+
+linux常用文件操作系统操作
+
+- 创建swapfile
+- 创建LVM
+- 创建文件(夹)
+- 更改文件(夹)属性()
+- 文件挂载(修改 /etc/fstab)
+
+## software
+- 安装常用软件: nginx,mysql,postgresql,docker,docker-compose
+- 指定软件更新.
+- 常用软件更新.
+- 操作系统备份.
+- 重启软件服务
+- 
+## 安全
+- 更新sshd文件
+- 打开防火墙某端口
+- 关闭防火墙某端口
 
 ### web说明
 

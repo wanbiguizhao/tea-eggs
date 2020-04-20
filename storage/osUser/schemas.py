@@ -9,13 +9,9 @@ from typing import List
 from pydantic import BaseModel
 from enum import Enum
 from pydantic.schema import datetime
+from storage.basicModel import TaskStatusEnum
 
 
-class TaskStatusEnum(str, Enum):
-    init = "init" #
-    processing = "processing" # 
-    sucess = "sucess" # 成功
-    failure = 'failure' #
 
 
 
