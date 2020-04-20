@@ -14,13 +14,8 @@ from ansible.vars.manager import VariableManager
 from ansible.executor.playbook_executor import PlaybookExecutor
 _project_root = str(pathlib.Path(__file__).resolve().parents[2])
 sys.path.append(_project_root)
-<<<<<<< HEAD
-from taskService.basicTask import ansiblePlaybookTask
-from config import ANSIBLE_SSH_USER,ANSIBLE_SSH_PORT,ANSIBLE_SSH_PRIVATE_KEY_FILE
-=======
 from taskService.basicTask import AnsiblePlaybookTask
 #from config import ansible_ssh_user,ansible_ssh_port,ansible_ssh_private_key_file
->>>>>>> 51213737a177436984546c92d5621f62e912fa94
 
 
 
@@ -47,39 +42,17 @@ class ansibleLockUserTask(AnsiblePlaybookTask):
         data = yaml.safe_load(self.yaml_template)
         data[0]['hosts'] = self.task_info_obj.host
         data[0]['vars']['username'] = self.task_info_obj.username
-<<<<<<< HEAD
-        data[0]['vars']['ansible_ssh_user'] = ANSIBLE_SSH_USER
-        data[0]['vars']['ansible_ssh_port'] = ANSIBLE_SSH_PORT
-        data[0]['vars']['ansible_ssh_private_key_file'] = ANSIBLE_SSH_PRIVATE_KEY_FILE
-        return data
-
-class ansibleUnLockUserTask(ansiblePlaybookTask):
-    task_name="unlockUser"
-    yaml_template = """
-=======
-        # data[0]['vars']['ansible_ssh_user'] = ansible_ssh_user
-        # data[0]['vars']['ansible_ssh_port'] = ansible_ssh_port
-        # data[0]['vars']['ansible_ssh_private_key_file'] = ansible_ssh_private_key_file
         return data
 
 class ansibleUnLockUserTask(AnsiblePlaybookTask):
-    task_name="unLockUser"
-    yaml_template="""
->>>>>>> 51213737a177436984546c92d5621f62e912fa94
+    task_name="unlockUser"
+    yaml_template = """
 - hosts: params_host
   become: yes
   become_user: root
   gather_facts: F #开启debug模式
   vars:
     username: params_username
-<<<<<<< HEAD
-  tasks:
-  - name: ping the machine
-    ping:
-  - name: unlock user |chang user login shell
-    shell: usermod {{username}} -s /bin/bash
-"""
-=======
     ansible_ssh_user : params_user
     ansible_ssh_port : params_port
     ansible_ssh_private_key_file : params_key_file
@@ -89,16 +62,10 @@ class ansibleUnLockUserTask(AnsiblePlaybookTask):
   - name: lock user |chang user login shell
     shell: usermod {{username}} -s /bin/sh 
     """
-    
->>>>>>> 51213737a177436984546c92d5621f62e912fa94
     def init_yaml_params(self):
         data = yaml.safe_load(self.yaml_template)
         data[0]['hosts'] = self.task_info_obj.host
         data[0]['vars']['username'] = self.task_info_obj.username
-<<<<<<< HEAD
-        data[0]['vars']['ansible_ssh_user'] = ANSIBLE_SSH_USER
-        data[0]['vars']['ansible_ssh_port'] = ANSIBLE_SSH_PORT
-        data[0]['vars']['ansible_ssh_private_key_file'] = ANSIBLE_SSH_PRIVATE_KEY_FILE
         return data
 
 class ansibleAddUserTask(ansiblePlaybookTask):
@@ -136,9 +103,6 @@ class ansibleAddUserTask(ansiblePlaybookTask):
         data[0]['vars']['username'] = self.task_info_obj.username
         data[0]['vars']['password'] = self.task_info_obj.password
         data[0]['vars']['public_key'] = self.task_info_obj.publickey
-        data[0]['vars']['ansible_ssh_user'] = ANSIBLE_SSH_USER
-        data[0]['vars']['ansible_ssh_port'] = ANSIBLE_SSH_PORT
-        data[0]['vars']['ansible_ssh_private_key_file'] = ANSIBLE_SSH_PRIVATE_KEY_FILE
         return data
 
 class ansibleAddSudoTask(ansiblePlaybookTask):
@@ -162,9 +126,6 @@ class ansibleAddSudoTask(ansiblePlaybookTask):
         data = yaml.safe_load(self.yaml_template)
         data[0]['hosts'] = self.task_info_obj.host
         data[0]['vars']['username'] = self.task_info_obj.username
-        data[0]['vars']['ansible_ssh_user'] = ANSIBLE_SSH_USER
-        data[0]['vars']['ansible_ssh_port'] = ANSIBLE_SSH_PORT
-        data[0]['vars']['ansible_ssh_private_key_file'] = ANSIBLE_SSH_PRIVATE_KEY_FILE
         return data
 
 class ansibleAddPublickeyTask(ansiblePlaybookTask):
@@ -191,9 +152,6 @@ class ansibleAddPublickeyTask(ansiblePlaybookTask):
         data[0]['hosts'] = self.task_info_obj.host
         data[0]['vars']['username'] = self.task_info_obj.username
         data[0]['vars']['public_key'] = self.task_info_obj.publickey
-        data[0]['vars']['ansible_ssh_user'] = ANSIBLE_SSH_USER
-        data[0]['vars']['ansible_ssh_port'] = ANSIBLE_SSH_PORT
-        data[0]['vars']['ansible_ssh_private_key_file'] = ANSIBLE_SSH_PRIVATE_KEY_FILE
         return data
 
 class ansibleChangePasswordTask(ansiblePlaybookTask):
@@ -221,9 +179,6 @@ class ansibleChangePasswordTask(ansiblePlaybookTask):
         data[0]['hosts'] = self.task_info_obj.host
         data[0]['vars']['username'] = self.task_info_obj.username
         data[0]['vars']['password'] = self.task_info_obj.password
-        data[0]['vars']['ansible_ssh_user'] = ANSIBLE_SSH_USER
-        data[0]['vars']['ansible_ssh_port'] = ANSIBLE_SSH_PORT
-        data[0]['vars']['ansible_ssh_private_key_file'] = ANSIBLE_SSH_PRIVATE_KEY_FILE
         return data
 
 class ansibleAddGroupTask(ansiblePlaybookTask):
@@ -247,13 +202,4 @@ class ansibleAddGroupTask(ansiblePlaybookTask):
         data[0]['hosts'] = self.task_info_obj.host
         data[0]['vars']['username'] = self.task_info_obj.username
         data[0]['vars']['groupname'] = self.task_info_obj.groupname
-        data[0]['vars']['ansible_ssh_user'] = ANSIBLE_SSH_USER
-        data[0]['vars']['ansible_ssh_port'] = ANSIBLE_SSH_PORT
-        data[0]['vars']['ansible_ssh_private_key_file'] = ANSIBLE_SSH_PRIVATE_KEY_FILE
         return data
-=======
-        # data[0]['vars']['ansible_ssh_user'] = ansible_ssh_user
-        # data[0]['vars']['ansible_ssh_port'] = ansible_ssh_port
-        # data[0]['vars']['ansible_ssh_private_key_file'] = ansible_ssh_private_key_file
-        return data
->>>>>>> 51213737a177436984546c92d5621f62e912fa94

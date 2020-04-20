@@ -10,20 +10,12 @@ import sys
 _project_root = str(pathlib.Path(__file__).resolve().parents[2])
 sys.path.append(_project_root)
 from traceback import print_exc
-<<<<<<< HEAD
-
-
-from taskService.osUser.os_user_tasks import ansibleLockUserTask
-from storage.osUser.models import LockUserTask
-from config import ANSIBLE_VARS
-=======
 from taskService.osUser.new_lock_user import ansibleLockUserTask
 from taskService.osUser.runing_tasks import LockUserRunningTask,UnLockUserRunningTask
 from storage.osUser.models import LockUserTask
 
 import json
 
->>>>>>> 51213737a177436984546c92d5621f62e912fa94
 
 def test_lock_user_task_01():
     """
@@ -34,13 +26,6 @@ def test_lock_user_task_01():
     """
     runtime_task=ansibleLockUserTask(become_pass="tea-eggs",yaml_save_path=_project_root+"/TEST/lock_user.yml",ansible_vars=ANSIBLE_VARS)
     task_model=LockUserTask()
-<<<<<<< HEAD
-    task_model.host="127.0.0.1"
-    task_model.username="ops"
-    ret=runtime_task.run(task_info_obj=task_model)
-    assert runtime_task.check_pass==True
-    assert ret != None
-=======
     task_model.host="172.20.16.2"
     task_model.username="osuser"
     ret=runtime_task.run(task_info_obj=task_model)
@@ -76,7 +61,6 @@ def test_01_UNLockUserRunningTask_01():
 if __name__ == "__main__":
     #test_lock_user_task_01()
     test_LockUserRunningTask_01()
->>>>>>> 51213737a177436984546c92d5621f62e912fa94
 
 if __name__=='__main__':
     test_lock_user_task_01()

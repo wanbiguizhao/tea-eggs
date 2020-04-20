@@ -87,12 +87,7 @@ class AnsiblePlaybookTask:
         self.yaml_data=self.init_yaml_params() # 初始化
         self.init_ansible_vars()# 初始化ansible相关的参数(主要是涉及可以是ansible可以正常访问远程主机的参数)，
         self.dumps_yaml_file() # 生成yaml文件。
-<<<<<<< HEAD
-        run_playbook = self.run_playbook()
-        return run_playbook
-=======
         return self.run_playbook()
->>>>>>> 51213737a177436984546c92d5621f62e912fa94
 
     def init_ansible_vars(self):
         for key,value in self.ansible_vars.items():
@@ -112,11 +107,6 @@ class AnsiblePlaybookTask:
 #            print(documents)
 
     def run_playbook(self):        
-<<<<<<< HEAD
-        task = playbook.run_palybook(os.path.abspath(self.yaml_save_path),self.become_pass)
-        if task == True:
-            return True
-=======
         return playbook.run_palybook(os.path.abspath(self.yaml_save_path),self.become_pass)
 
 
@@ -142,7 +132,6 @@ class RunningTask(BaseModel):
     def get_undo_task(self):
         """"父类已经实现,子类可以改写"""
         return util.get_undo_task(self.db_task_type_name)
->>>>>>> 51213737a177436984546c92d5621f62e912fa94
 
     def run(self):
         try:

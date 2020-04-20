@@ -98,8 +98,6 @@ class ResultCallback(CallbackBase):
         self.result['v2_playbook_on_stats'].append(stats.__dict__)
         print('===========play executes completed========')
 
-<<<<<<< HEAD
-=======
     def get_task_result(self):
         self.result["sucess_flag"]=True
         if len(self.result["v2_runner_on_unreachable"])>0:
@@ -108,9 +106,6 @@ class ResultCallback(CallbackBase):
             self.result["sucess_flag"]=False
         return self.result
 
-
-
->>>>>>> 51213737a177436984546c92d5621f62e912fa94
 def run_palybook(playbook_path, become_pass):
     # InventoryManager类
     loader = DataLoader()  # 读取yaml文件
@@ -139,14 +134,8 @@ def run_palybook(playbook_path, become_pass):
     results_callback = ResultCallback()
     playbook._tqm._stdout_callback = results_callback
     playbook.run()
-<<<<<<< HEAD
-    if test == 'ok':
-        return True
-    
-=======
     return results_callback.get_task_result()
 
->>>>>>> 51213737a177436984546c92d5621f62e912fa94
 
 if __name__ == "__main__":
     pass

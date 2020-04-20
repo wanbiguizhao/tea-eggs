@@ -11,18 +11,10 @@ import os
 import yaml
 _project_root = str(pathlib.Path(__file__).resolve().parents[2])
 sys.path.append(_project_root)
-<<<<<<< HEAD
 import storage.osUser.util 
 from storage.osUser.schemas import TaskStatusEnum
 from taskService.osUser import os_user_tasks
-from datetime import datetime
-import time
-from config import YAML_PATH,BECOME_PASS
-=======
-from storage.osUser.util import get_undo_lock_user_tasks, get_undo_unlock_user_tasks
-from storage.basicModel import  TaskStatusEnum
 from storage.osUser.models import  LockUserTask,UNLockUserTask
-from taskService.osUser import lock_user , unlock_user, os_user_tasks
 from taskService.basicTask import RunningTask
 import  click
 from datetime import datetime
@@ -41,10 +33,6 @@ class UnLockUserRunningTask(RunningTask):
     db_task_type_name  = UNLockUserTask
     ansible_task_type_name =os_user_tasks.ansibleUnLockUserTask
 
-
-
-
->>>>>>> 51213737a177436984546c92d5621f62e912fa94
 
 
 def run_lock_user_tasks():
