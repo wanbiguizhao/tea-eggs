@@ -62,8 +62,6 @@ if __name__ == "__main__":
     #test_lock_user_task_01()
     test_LockUserRunningTask_01()
 
-if __name__=='__main__':
-    test_lock_user_task_01()
 
 
 
