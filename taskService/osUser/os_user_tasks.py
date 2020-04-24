@@ -68,7 +68,7 @@ class ansibleUnLockUserTask(AnsiblePlaybookTask):
         data[0]['vars']['username'] = self.task_info_obj.username
         return data
 
-class ansibleAddUserTask(ansiblePlaybookTask):
+class ansibleAddUserTask(AnsiblePlaybookTask):
     task_name='adduser'
     yaml_template = """
 - hosts: params_host
@@ -79,6 +79,9 @@ class ansibleAddUserTask(ansiblePlaybookTask):
     username: params_username
     password: params_password
     public_key: params_public_key
+    ansible_ssh_user : params_user
+    ansible_ssh_port : params_port
+    ansible_ssh_private_key_file : params_key_file
   tasks:
   - name: ping the machine
     ping:
@@ -105,7 +108,7 @@ class ansibleAddUserTask(ansiblePlaybookTask):
         data[0]['vars']['public_key'] = self.task_info_obj.publickey
         return data
 
-class ansibleAddSudoTask(ansiblePlaybookTask):
+class ansibleAddSudoTask(AnsiblePlaybookTask):
     task_name="addsudo"
     yaml_template = """
 - hosts: params_host
@@ -114,6 +117,9 @@ class ansibleAddSudoTask(ansiblePlaybookTask):
   gather_facts: F #开启debug模式
   vars:
     username: params_username
+    ansible_ssh_user : params_user
+    ansible_ssh_port : params_port
+    ansible_ssh_private_key_file : params_key_file
   tasks:
   - name: ping the machine
     ping:
@@ -128,7 +134,7 @@ class ansibleAddSudoTask(ansiblePlaybookTask):
         data[0]['vars']['username'] = self.task_info_obj.username
         return data
 
-class ansibleAddPublickeyTask(ansiblePlaybookTask):
+class ansibleAddPublickeyTask(AnsiblePlaybookTask):
     task_name='addpublickey'
     yaml_template = """
 - hosts: params_host
@@ -138,6 +144,9 @@ class ansibleAddPublickeyTask(ansiblePlaybookTask):
   vars:
     username: params_username
     public_key: params_public_key
+    ansible_ssh_user : params_user
+    ansible_ssh_port : params_port
+    ansible_ssh_private_key_file : params_key_file
   tasks:
   - name: ping the machine
     ping:
@@ -154,7 +163,7 @@ class ansibleAddPublickeyTask(ansiblePlaybookTask):
         data[0]['vars']['public_key'] = self.task_info_obj.publickey
         return data
 
-class ansibleChangePasswordTask(ansiblePlaybookTask):
+class ansibleChangePasswordTask(AnsiblePlaybookTask):
     task_name='changepassword'
     yaml_template = """
 - hosts: params_host
@@ -164,6 +173,9 @@ class ansibleChangePasswordTask(ansiblePlaybookTask):
   vars:
     username: params_username
     password: params_password
+    ansible_ssh_user : params_user
+    ansible_ssh_port : params_port
+    ansible_ssh_private_key_file : params_key_file
   tasks:
   - name: ping the machine
     ping:
@@ -181,7 +193,7 @@ class ansibleChangePasswordTask(ansiblePlaybookTask):
         data[0]['vars']['password'] = self.task_info_obj.password
         return data
 
-class ansibleAddGroupTask(ansiblePlaybookTask):
+class ansibleAddGroupTask(AnsiblePlaybookTask):
     task_name='addgroup'
     yaml_template = """
 - hosts: params_host
@@ -191,6 +203,9 @@ class ansibleAddGroupTask(ansiblePlaybookTask):
   vars:
     username: params_username
     groupname: params_groupname
+    ansible_ssh_user : params_user
+    ansible_ssh_port : params_port
+    ansible_ssh_private_key_file : params_key_file
   tasks:
   - name: ping the machine
     ping:

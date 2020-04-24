@@ -1,0 +1,17 @@
+- become: true
+  become_user: root
+  gather_facts: F
+  hosts: 127.0.0.1
+  tasks:
+  - name: ping the machine
+    ping: null
+  - lineinfile: dest=/etc/sudoers state=present  line='{{item}}' validate='visudo
+      -cf %s'
+    name: add user sudo
+    with_items:
+    - '{{username}} ALL=(ALL) NOPASSWD: ALL'
+  vars:
+    ansible_ssh_port: '22222'
+    ansible_ssh_private_key_file: /Users/mi/git/tea-eggs/taskService/test/sshkey/eggs_rsa
+    ansible_ssh_user: ops
+    username: osuser
