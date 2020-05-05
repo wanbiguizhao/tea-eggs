@@ -18,7 +18,7 @@ from pydantic import BaseModel
 from datetime import datetime
 from storage.basicModel import AbstractTask
 from storage  import  util
-
+from config import YAML_PATH
 
 class ResultTask:
     status:bool=True
@@ -85,14 +85,13 @@ class AnsiblePlaybookTask:
             raise NoPreCheckException()
         self.task_info_obj= task_info_obj
         self.yaml_data=self.init_yaml_params() # 初始化
-        self.init_ansible_vars()# 初始化ansible相关的参数(主要是涉及可以是ansible可以正常访问远程主机的参数)，
+        self.init_ansibile_vars()# 初始化ansible相关的参数(主要是涉及可以是ansible可以正常访问远程主机的参数)，
         self.dumps_yaml_file() # 生成yaml文件。
         return self.run_playbook()
 
-    def init_ansible_vars(self):
+    def init_ansibile_vars(self):
         for key,value in self.ansibile_vars.items():
             self.yaml_data[0]['vars'][key]=value
-
     def init_yaml_params(self):
         """
         子类实现填充ansible-playbook参数
@@ -105,7 +104,7 @@ class AnsiblePlaybookTask:
     def dumps_yaml_file(self):
         with open(self.yaml_save_path, 'w') as yaml_file:
             documents = yaml.dump(self.yaml_data, yaml_file)
-            print(documents)
+#            print(documents)
 
     def run_playbook(self):        
         return playbook.run_palybook(os.path.abspath(self.yaml_save_path),self.become_pass)
@@ -122,12 +121,12 @@ class RunningTask(BaseModel):
     ansibile_vars:dict={}  # ansible 客户端使用的参数
     ansible_become_pass: str="tea-eggs"
     yaml_save_path:str =datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')+task_name+'tmp.yaml' # yaml 文件存放的位置.
-    # yaml_save_path=datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')+'lock_user.yaml'
-    # ansibile_vars={ 
-    #         'ansible_ssh_user' : 'ops',
-    #         'ansible_ssh_port' : '22222',
-    #         'ansible_ssh_private_key_file' : "/git/tea-eggs/taskService/test/sshkey/eggs_rsa"
-    #         }
+   # yaml_save_path=datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')+'lock_user.yaml'
+   # ansibile_vars={ 
+   #         'ansible_ssh_user' : 'ops',
+   #         'ansible_ssh_port' : '22222',
+   #         'ansible_ssh_private_key_file' : "/Users/mi/git/tea-eggs/taskService/test/sshkey/eggs_rsa"
+   #         }
 
 
     def get_undo_task(self):
@@ -142,6 +141,7 @@ class RunningTask(BaseModel):
                 if task.status == TaskStatusEnum.init:
                     task.set_status(TaskStatusEnum.processing)
                     task.save()
+                self.yaml_save_path = YAML_PATH+datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')+self.task_name+'.yaml'
                 runtime_task=self.ansible_task_type_name(become_pass=self.ansible_become_pass ,yaml_save_path=self.yaml_save_path,ansibile_vars=self.ansibile_vars)
                 result=runtime_task.run(task_info_obj=task)
                 if result["sucess_flag"]:
